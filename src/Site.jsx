@@ -12,6 +12,9 @@ export default function Site({ site, timer }) {
 
     const fetchSite = async () => {
         setTotalRequests(prev => prev + 1)
+        const date = new Date();
+        const d = new Date(date.getTime() + timer);
+        setNextRequest(d.toLocaleTimeString());
         try {
             const res = await axios.get(site)
             if (res.data.status === 200) {
@@ -26,12 +29,8 @@ export default function Site({ site, timer }) {
         let interval1, interval2;
         if (!isStart) {
             setIsStart(true)
-            const date = new Date();
-            const d = new Date(date.getTime()+timer);
-            setNextRequest(d.toLocaleTimeString());
             fetchSite()
             interval2 = setInterval(() => {
-                console.log("second interval")
                 fetchSite()
             }, timer)
 
@@ -84,7 +83,7 @@ export default function Site({ site, timer }) {
             </div>
             <div className='grid place-content-center w-full md:w-[20%] lg:w-[30%] mt-5 md:mt-0'>
                 <button onClick={toggleTimer}
-                className={`${!isStart? "bg-green-600 hover:bg-green-700":"bg-red-600 hover:bg-red-700"} rounded-md px-8 text-white font-semibold py-2`}>
+                    className={`${!isStart ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"} rounded-md px-8 text-white font-semibold py-2`}>
                     {isStart ? "Stop" : "Start"}
                 </button>
             </div>
